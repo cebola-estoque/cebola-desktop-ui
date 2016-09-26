@@ -1,0 +1,36 @@
+<md-dialog id="login-dialog" aria-label="Authentication dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Login</h2>
+      <span flex></span>
+      <md-button ng-click="signUp()">
+        Sign up
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="logInForm" ng-submit="submit()">
+    <md-dialog-content>
+      <md-content class="md-padding">
+        <md-input-container class="md-block">
+          <label>E-mail</label>
+          <input name="email" required type="email" ng-model="logInData.email">
+          <div ng-messages="logInForm.email.$error">
+            <div ng-message="required">E-mail is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input name="password" required type="password" ng-model="logInData.password">
+          <div ng-messages="logInForm.password.$error">
+            <div ng-message="required">Password is required</div>
+          </div>
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="submit()">
+        Log in
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

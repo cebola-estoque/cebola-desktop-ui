@@ -1,0 +1,44 @@
+<md-dialog id="new-product-model-dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Novo produto</h2>
+      <span flex></span>
+      <md-button ng-click="close()" class="md-icon-button">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="productModelForm" ng-submit="submit()">
+    <md-dialog-content>
+      <md-content class="md-padding">
+        <md-input-container class="md-block">
+          <label>Name</label>
+          <input
+            name="description"
+            required
+            type="text"
+            ng-model="productModelData.description">
+          <div ng-messages="productModelForm.description.$error">
+            <div ng-message="required">Name is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>SKU</label>
+          <input
+            name="sku"
+            required
+            type="text"
+            ng-model="productModelData.sku">
+          <div ng-messages="productModelForm.sku.$error">
+            <div ng-message="required">Document type is required</div>
+          </div>
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="submit()">
+        Create
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

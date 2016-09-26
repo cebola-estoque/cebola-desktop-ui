@@ -1,0 +1,25 @@
+{
+  "name": "inventory-adm",
+  "authors": [
+    "Simon <simonxd@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-bootstrap": "^2.0.2",
+    "angular-ui-router": "^0.3.1",
+    "font-awesome": "^4.6.3",
+    "angular-material": "^1.1.0"
+  }
+}

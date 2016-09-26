@@ -1,0 +1,51 @@
+<md-dialog id="sign-up-dialog" aria-label="Authentication dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Sign up</h2>
+      <span flex></span>
+      <md-button ng-click="logIn()">
+        Log in
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="signUpForm" ng-submit="submit()">
+    <md-dialog-content>
+      <md-content class="md-padding">
+        <md-input-container class="md-block">
+          <label>Name</label>
+          <input name="name" type="text" ng-model="signUpData.name" required>
+          <div ng-messages="signUpForm.name.$error">
+            <div ng-message="required">Name is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>E-mail</label>
+          <input name="email" type="email" ng-model="signUpData.email" required>
+          <div ng-messages="signUpForm.email.$error">
+            <div ng-message="required">E-mail is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input name="password" type="password" ng-model="signUpData.password" required>
+          <div ng-messages="signUpForm.password.$error">
+            <div ng-message="required">Password is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Confirm your password</label>
+          <input name="passwordConfirmation" type="password" ng-model="signUpData.passwordConfirmation" required>
+          <div ng-messages="signUpForm.passwordConfirmation.$error">
+            <div ng-message="required">Password confirmation is required</div>
+            <div ng-message="passwordMismatch">Passwords do not match</div>
+          </div>
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button ng-click="submit()">
+      Sign up
+    </md-button>
+  </md-dialog-actions>
+  </form>
+</md-dialog>

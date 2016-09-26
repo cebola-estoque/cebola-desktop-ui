@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="inventoryAdm">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Page title</title>
+    
+    <!-- angular material -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- own -->
+    <link rel="stylesheet" href="styles/dialogs/auth.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="styles/dialogs/new-shipment.css" type="text/css" media="all" />
+  </head>
+  <body ng-controller="AppCtrl">
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+      <md-nav-item md-nav-sref="inventory" name="inventory">
+        Inventário
+      </md-nav-item>
+      <md-nav-item md-nav-sref="shipments" name="shipments">
+        Carregamentos
+      </md-nav-item>
+      <md-nav-item md-nav-sref="operations" name="operations">
+        Operations
+      </md-nav-item>
+      <md-nav-item md-nav-sref="organizations" name="organizations">
+        Organizações
+      </md-nav-item>
+      <md-nav-item md-nav-sref="product-models" name="product-models">
+        Produtos
+      </md-nav-item>
+    </md-nav-bar>
+    
+    <div
+      ui-view
+      id="main-view-wrapper"
+      class="container-fluid"></div>
+      
+    <script>
+      window.CONFIG = {
+        INVENTORY_API_URI: 'http://localhost:7000',
+      };
+    </script>
+      
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-material/angular-material.js">
+      
+    </script>
+    
+    <!-- services -->
+    <script src="scripts/services/index.js"></script>
+    <script src="scripts/services/auth.js"></script>
+    <script src="scripts/services/cebola.js"></script>
+    
+    <!-- controllers -->
+    <script src="scripts/controllers/index.js"></script>
+    <script src="scripts/controllers/auth.js"></script>
+    <script src="scripts/controllers/inventory.js"></script>
+    <script src="scripts/controllers/operations.js"></script>
+    <script src="scripts/controllers/organizations.js"></script>
+    <script src="scripts/controllers/shipments.js"></script>
+    <script src="scripts/controllers/product-models.js"></script>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

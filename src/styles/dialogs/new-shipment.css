@@ -1,0 +1,21 @@
+#new-shipment-dialog {
+  width: 70vw;
+  
+  min-height: 40vh;
+}
+
+.product-list {
+  margin: 0 0;
+  padding: 0 0;
+  
+  list-style: none;
+}
+
+.product-list > li {
+  margin: 0 0;
+  padding: 0 0;
+}
+
+.product-list > li md-autocomplete {
+  width: 100%;
+}

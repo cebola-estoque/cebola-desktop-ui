@@ -1,0 +1,21 @@
+<md-content flex layout-padding>
+  <h1>{{ title }}</h1>
+  
+  
+  <md-button class="md-fab" ng-click="openCreateOrgContactDialog()" aria-label="Add">
+    <md-icon>add</md-icon>
+  </md-button>
+  
+  <md-list>
+    <md-list-item class="md-3-line" ng-repeat="orgContact in orgContacts">
+      <div class="md-list-item-text">
+        <h3>{{ orgContact.name }}</h3>
+        <h4>{{ orgContact.document.type }}: {{ orgContact.document.value }}</h4>
+        <p>{{item.notes}}</p>
+      </div>
+      <!-- <md-button class="md-secondary">Ver carregamentos</md-button> -->
+      <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
+  </md-list>
+  
+</md-content>

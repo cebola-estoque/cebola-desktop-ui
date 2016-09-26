@@ -1,0 +1,55 @@
+<md-dialog id="new-org-contact-dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Nova organização</h2>
+      <span flex></span>
+      <md-button ng-click="close()" class="md-icon-button">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="orgContactForm" ng-submit="submit()">
+    <md-dialog-content>
+      <md-content class="md-padding">
+        <md-input-container class="md-block">
+          <label>Name</label>
+          <input
+            name="name"
+            required
+            type="text"
+            ng-model="orgContactData.name">
+          <div ng-messages="orgContactForm.name.$error">
+            <div ng-message="required">Name is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Tipo de documento</label>
+          <input
+            name="docType"
+            required
+            type="text"
+            ng-model="orgContactData.docType">
+          <div ng-messages="orgContactForm.docType.$error">
+            <div ng-message="required">Document type is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Documento</label>
+          <input
+            name="docValue"
+            required
+            type="text"
+            ng-model="orgContactData.docValue">
+          <div ng-messages="orgContactForm.docValue.$error">
+            <div ng-message="required">Document is required</div>
+          </div>
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="submit()">
+        Create
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
