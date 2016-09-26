@@ -135,5 +135,30 @@ angular.module('inventoryAdm.services')
         return res.data;
       });
     },
+
+    /**
+     * Operation-related methods
+     */
+    registerEntryOperation: function (authToken, shipmentId, operationData) {
+      return $http.post(
+        API_URI + '/shipment/' + shipmentId + '/operations/entries',
+        operationData,
+        _authConfig(authToken)
+      )
+      .then(function (res) {
+        return res.data;
+      });
+    },
+
+    registerExitOperation: function (authToken, shipmentId, operationData) {
+      return $http.post(
+        API_URI + '/shipment/' + shipmentId + '/operations/exits',
+        operationData,
+        _authConfig(authToken)
+      )
+      .then(function (res) {
+        return res.data;
+      });
+    },
   }
 });

@@ -48,9 +48,18 @@
         controller: 'ProductModelsCtrl',
       })
       .state('shipments', {
-        url: '/shipments',
+        abstract: true,
         templateUrl: 'templates/shipments.html',
-        controller: 'ShipmentsCtrl',
+      })
+      .state('shipments.list', {
+        url: '/shipments',
+        templateUrl: 'templates/shipments.list.html',
+        controller: 'ShipmentsListCtrl',
+      })
+      .state('shipments.detail', {
+        url: '/shipment/:shipmentId',
+        templateUrl: 'templates/shipments.detail.html',
+        controller: 'ShipmentsDetailCtrl',
       });
   
     

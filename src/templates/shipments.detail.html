@@ -1,0 +1,48 @@
+<md-content flex layout-padding>
+  <h2>{{ shipment.type }}: {{ shipment.scheduledFor | date:'d MMMM yyyy' : 'UTC' }}</h2>
+  
+  <h4 ng-if="shipment.type === 'entry'">
+    Fornecedor: {{ shipment.supplier.name }}
+  </h4>
+  <h4 ng-if="shipment.type === 'exit'">
+    Destinatário: {{ shipment.destination.name }}
+  </h4>
+
+  <h5>Alocações</h5>
+  <table>
+    <tr ng-repeat="allocation in shipment.summary.allocations">
+      <td>{{ allocation.type }}</td>
+      <td>{{ allocation.productModel.description }}</td>
+      <td>
+        validade: {{ allocation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}
+      </td>
+      <td>
+        {{ allocation.quantity.value }} {{ allocation.quantity.unit }}
+      </td>
+      <td>
+        <button ng-click="openNewOperationDialog(shipment, allocation)">
+          + operação
+        </button>
+      </td>
+
+      <td>
+        <ul>
+          <li ng-repeat="operation in allocation.operations">
+            <h6>{{ operation.quantity.value }} {{ operation.quantity.unit }}</h6>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <h5>Operações</h5>
+  <table>
+    <tr ng-repeat="operation in shipment.summary.orphanOperations">
+      <td>{{ operation.productModel.description }}</td>
+      <td>validade: {{ operation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}</td>
+      <td>
+        {{ operation.quantity.value }} {{ operation.quantity.unit }}
+      </td>
+    </tr>
+  </table>
+</md-content>

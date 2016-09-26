@@ -1,0 +1,36 @@
+<md-dialog id="new-org-contact-dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>{{ allocation.type }}: {{ allocation.productModel.description }}</h2>
+      <span flex></span>
+      <md-button ng-click="close()" class="md-icon-button">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="operationForm" ng-submit="submit()">
+    <md-dialog-content>
+      <md-content class="md-padding">
+
+
+        <md-input-container>
+          <label>Quantidade</label>
+          <input
+            name="quantityValue"
+            required
+            type="number"
+            ng-model="operation.quantity.value">
+        </md-input-container>
+
+        {{ operation.quantity.unit }}
+        
+
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="submit()">
+        efetivar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
