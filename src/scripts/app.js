@@ -51,7 +51,7 @@
         url: '/shipments',
         templateUrl: 'templates/shipments.html',
         controller: 'ShipmentsCtrl',
-      })
+      });
   
     
     // .state('estoque', {

@@ -25,33 +25,61 @@ angular.module('inventoryAdm.controllers')
         }
       });
   };
+
+  /**
+   * Opens a dialog to present the details of a shipment
+   * 
+   * @param  {Object} shipment
+   */
+  $scope.openShipmentDetailsDialog = function (shipmentId) {
+
+    return CebolaSvc.getShipmentById(
+      AuthSvc.getAuthToken(),
+      shipmentId
+    )
+    .then(function (shipment) {
+
+      console.log(shipment);
+
+      return $mdDialog.show({
+        controller: function ($scope, $q, $mdDialog) {
+          $scope.shipment = shipment;
+          
+          $scope.close = function () {
+            $mdDialog.hide();
+          };
+        },
+        templateUrl: 'templates/dialogs/shipment/details.html'
+      });
+
+    });
+
+  };
   
-  $scope.openCreateShipmentDialog = function () {
+  /**
+   * Opens dialog for creating a new entry shipment
+   * @return {Bluebird}
+   */
+  $scope.openEntryShipmentDialog = function () {
     return $mdDialog.show({
       controller: function ($scope, $q, $mdDialog) {
         
+        $scope.supplier     = undefined;
         $scope.shipmentData = {
-          // start with one operation
-          operations: [{}],
+          type: 'entry'
         };
+        $scope.allocations  = [{}];
         
         $scope.searchProducts = function (searchText) {
-          if ($scope.shipmentData.type === 'exit') {
-            return CebolaSvc.searchInventory(
-              AuthSvc.getAuthToken(),
-              searchText
-            );
-          } else {
-            // by default search through all product models
-            return CebolaSvc.searchProductModels(
-              AuthSvc.getAuthToken(),
-              searchText
-            );
-          } 
+          // by default search through all product models
+          return CebolaSvc.searchProductModels(
+            AuthSvc.getAuthToken(),
+            searchText
+          );
         };
         
-        $scope.searchOrganizationContacts = function (searchText) {
-          return CebolaSvc.searchOrganizationContacts(
+        $scope.searchOrganizations = function (searchText) {
+          return CebolaSvc.searchOrganizations(
             AuthSvc.getAuthToken(),
             searchText
           );
@@ -62,35 +90,15 @@ angular.module('inventoryAdm.controllers')
         };
         
         $scope.submit = function () {
-          var type = $scope.shipmentData.type;
-          var source = $scope.shipmentData.source;
+          var supplier     = $scope.supplier;
           var scheduledFor = $scope.shipmentData.scheduledFor;
-          
-          
-          var operations = $scope.shipmentData
-            .operations.map(function (opData) {
-              
-              var productModel  = opData.productModel;
-              var productExpiry = opData.productExpiry;
-              var quantity      = opData.quantity;
-              
-              return {
-                productModel: productModel,
-                productExpiry: productExpiry,
-                quantity: quantity,
-              };
-            });
-          
-          console.log('submit shipment', $scope.shipmentData);
-          
-          CebolaSvc.createShipment(
+          var allocations  = $scope.allocations;
+
+          CebolaSvc.scheduleEntryShipment(
             AuthSvc.getAuthToken(),
-            {
-              type: type,
-              scheduledFor: scheduledFor,
-              source: source,
-            },
-            operations
+            supplier,
+            $scope.shipmentData,
+            allocations
           )
           .then(function () {
             $mdDialog.hide();
@@ -102,11 +110,11 @@ angular.module('inventoryAdm.controllers')
         };
         
         $scope.addScheduledOperation = function () {
-          $scope.shipmentData.operations.push({});
+          $scope.allocations.push({});
         };
         
       },
-      templateUrl: 'templates/dialogs/new-shipment.html'
+      templateUrl: 'templates/dialogs/shipment/new-entry.html'
     })
     .then(function () {
       return $scope.loadShipments();

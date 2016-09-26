@@ -91,15 +91,44 @@ angular.module('inventoryAdm.services')
     },
     
     /**
-     * Creates a shipment and its associated operations
+     * Shipment-related methods
      */
-    createShipment: function (authToken, data, operations) {
+
+    /**
+     * Creates a shipment and its associated allocations
+     */
+    scheduleEntryShipment: function (authToken, supplier, shipmentData, allocations) {
       
-      data.operations = operations;
+      shipmentData.supplier    = supplier;
+      shipmentData.allocations = allocations;
       
       return $http.post(
-        API_URI + '/shipments',
-        data,
+        API_URI + '/shipments/entries',
+        shipmentData,
+        _authConfig(authToken)
+      )
+      .then(function (res) {
+        return res.data;
+      });
+    },
+
+    scheduleExitShipment: function (authToken, destination, shipmentData, allocations) {
+      shipmentData.destination = destination;
+      shipmentData.allocations = allocations;
+      
+      return $http.post(
+        API_URI + '/shipments/entries',
+        shipmentData,
+        _authConfig(authToken)
+      )
+      .then(function (res) {
+        return res.data;
+      });
+    },
+
+    getShipmentById: function (authToken, shipmentId) {
+      return $http.get(
+        API_URI + '/shipment/' + shipmentId,
         _authConfig(authToken)
       )
       .then(function (res) {

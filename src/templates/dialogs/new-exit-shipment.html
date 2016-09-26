@@ -1,4 +1,4 @@
-<md-dialog id="new-shipment-dialog">
+<md-dialog id="new-shipment-dialog" class="fullscreen">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Novo carregamento</h2>
@@ -12,13 +12,13 @@
     <md-dialog-content>
       <md-content class="md-padding">
         <md-input-container>
-          <label>Type</label>
+          <label>Tipo</label>
           <md-select ng-model="shipmentData.type" required>
             <md-option ng-value="'entry'">Entrada</md-option>
             <md-option ng-value="'exit'">Saída</md-option>
           </md-select>
           <div ng-messages="shipmentForm.type.$error">
-            <div ng-message="required">Shipment type is required</div>
+            <div ng-message="required">Tipo de carregamento é obrigatório</div>
           </div>
         </md-input-container>
         
@@ -30,7 +30,7 @@
         <md-autocomplete
           ng-show="shipmentData.type === 'entry'"
           class="md-block"
-          md-selected-item="shipmentData.source"
+          md-selected-item="shipmentData.supplier"
           md-floating-label="Fornecedor"
           required
           
@@ -39,7 +39,7 @@
           md-require-match
           md-item-text="org.name"
           md-search-text="shipmentData._sourceOrgSearchText"
-          md-items="org in searchOrganizationContacts(shipmentData._sourceOrgSearchText)">
+          md-items="org in searchOrganizations(shipmentData._sourceOrgSearchText)">
           <md-item-template>
             {{ org.name }}
           </md-item-template>
@@ -57,7 +57,7 @@
           md-require-match
           md-item-text="org.name"
           md-search-text="shipmentData._destinationOrgSearchText"
-          md-items="org in searchOrganizationContacts(shipmentData._destinationOrgSearchText)">
+          md-items="org in searchOrganizations(shipmentData._destinationOrgSearchText)">
           <md-item-template>
             {{ org.name }}
           </md-item-template>
