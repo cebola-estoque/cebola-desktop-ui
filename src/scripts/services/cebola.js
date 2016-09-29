@@ -70,10 +70,16 @@ angular.module('inventoryAdm.services')
       );
     },
     
-    listShipments: function (authToken) {
+    listShipments: function (authToken, query) {
+
+      query = query || {};
+
+      var config = _authConfig(authToken);
+      config.params = query;
+
       return $http.get(
         API_URI + '/shipments',
-        _authConfig(authToken)
+        config
       )
       .then(function (res) {
         return res.data;

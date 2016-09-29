@@ -1,4 +1,4 @@
-<md-dialog id="new-org-contact-dialog">
+<md-dialog id="new-operation-from-allocation">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>{{ allocation.type }}: {{ allocation.productModel.description }}</h2>
@@ -12,19 +12,28 @@
     <md-dialog-content>
       <md-content class="md-padding">
 
+        <div layout="row" flex>
 
-        <md-input-container>
-          <label>Quantidade</label>
-          <input
-            name="quantityValue"
-            required
-            type="number"
-            ng-model="operation.quantity.value">
-        </md-input-container>
+          <md-input-container>
+            <label>Quantidade ({{ operation.quantity.unit }})</label>
+            <input
+              name="quantityValue"
+              required
+              type="number"
+              ng-model="operation.quantity.value">
+          </md-input-container>
 
-        {{ operation.quantity.unit }}
-        
+          <md-input-container class="quantity-label">
+            de {{ allocation.remaining.value }} {{ allocation.remaining.unit }}
+          </md-input-container>
+        </div>
 
+        <div ng-messages="operationForm.quantityValue.$error" md-auto-hide="false">
+          <div ng-message="excess">
+            Quantity of the operation exceeds the allocated one
+          </div>
+        </div>
+      
       </md-content>
     </md-dialog-content>
     <md-dialog-actions layout="row">

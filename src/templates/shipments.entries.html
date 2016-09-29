@@ -1,0 +1,28 @@
+<md-content flex layout-padding>
+  <h1>Entrdadas</h1>
+  
+  <md-button class="md-fab" ng-click="openEntryShipmentDialog()" aria-label="Add">
+    <md-icon>add</md-icon>
+  </md-button>
+  
+  <md-list>
+    <md-list-item
+      class="md-3-line"
+      ng-repeat="shipment in shipments"
+      ui-sref="shipments.detail({ shipmentId: shipment._id })">
+      <div class="md-list-item-text">
+        <h3>Data: {{ shipment.scheduledFor | date:'d MMMM yyyy' : 'UTC' }}</h3>
+        <h3>Tipo: {{ shipment.type }}</h3>
+        <h4 ng-if="shipment.type === 'entry'">
+          Fornecedor: {{ shipment.supplier.name }}
+        </h4>
+        <h4 ng-if="shipment.type === 'exit'">
+          Destinatário: {{ shipment.destination.name }}
+        </h4>
+      </div>
+      <!-- <md-button class="md-secondary">Ver carregamentos</md-button> -->
+      <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
+  </md-list>
+  
+</md-content>

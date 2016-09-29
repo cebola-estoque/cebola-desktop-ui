@@ -8,41 +8,49 @@
     Destinatário: {{ shipment.destination.name }}
   </h4>
 
-  <h5>Alocações</h5>
-  <table>
-    <tr ng-repeat="allocation in shipment.summary.allocations">
-      <td>{{ allocation.type }}</td>
-      <td>{{ allocation.productModel.description }}</td>
-      <td>
-        validade: {{ allocation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}
-      </td>
-      <td>
+  <h4>Alocações</h4>
+
+  <md-list>
+    <md-list-item
+      ng-repeat="allocation in shipment.allocations">
+
+      <p>{{ allocation.productModel.description }}</p>
+      <p>validade: {{ allocation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}</p>
+      <p>
+        {{ allocation.quantity.value - allocation.remaining.value }} /
         {{ allocation.quantity.value }} {{ allocation.quantity.unit }}
-      </td>
-      <td>
-        <button ng-click="openNewOperationDialog(shipment, allocation)">
-          + operação
-        </button>
-      </td>
+      </p>
+      <md-button class="md-raised md-primary" ng-click="openNewOperationDialog(shipment, allocation)">efetivar</md-button>
+<!-- 
+      <div class="md-list-item-text allocation-operations">
+        <md-list>
+          <md-list-item
+            ng-repeat="operation in allocation.operations">
+            <p>{{ operation.productModel.description }}</p>
+            <p>validade: {{ operation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}</p>
+            <p>
+              {{ operation.quantity.value }} {{ operation.quantity.unit }}
+            </p>
+            <md-button class="md-raised md-primary">detalhes</md-button>
+          </md-list-item>
+        </md-list>
+      </div> -->
 
-      <td>
-        <ul>
-          <li ng-repeat="operation in allocation.operations">
-            <h6>{{ operation.quantity.value }} {{ operation.quantity.unit }}</h6>
-          </li>
-        </ul>
-      </td>
-    </tr>
-  </table>
+    </md-list-item>
+  </md-list>
 
-  <h5>Operações</h5>
-  <table>
-    <tr ng-repeat="operation in shipment.summary.orphanOperations">
-      <td>{{ operation.productModel.description }}</td>
-      <td>validade: {{ operation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}</td>
-      <td>
+  <h4>Operações</h4>
+
+  <md-list>
+    <md-list-item
+      ng-repeat="operation in shipment.unallocatedOperations">
+      <p>{{ operation.productModel.description }}</p>
+      <p>validade: {{ operation.productExpiry | date:'d MMMM yyyy' : 'UTC' }}</p>
+      <p>
         {{ operation.quantity.value }} {{ operation.quantity.unit }}
-      </td>
-    </tr>
-  </table>
+      </p>
+      <md-button class="md-raised md-primary">detalhes</md-button>
+    </md-list-item>
+  </md-list>
+
 </md-content>

@@ -51,10 +51,15 @@
         abstract: true,
         templateUrl: 'templates/shipments.html',
       })
-      .state('shipments.list', {
-        url: '/shipments',
-        templateUrl: 'templates/shipments.list.html',
-        controller: 'ShipmentsListCtrl',
+      .state('shipments.entries', {
+        url: '/shipments/entries',
+        templateUrl: 'templates/shipments.entries.html',
+        controller: 'ShipmentsEntriesCtrl',
+      })
+      .state('shipments.exits', {
+        url: '/shipments/exits',
+        templateUrl: 'templates/shipments.exits.html',
+        controller: 'ShipmentsExitsCtrl',
       })
       .state('shipments.detail', {
         url: '/shipment/:shipmentId',

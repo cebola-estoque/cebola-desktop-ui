@@ -1,16 +1,24 @@
 angular.module('inventoryAdm.controllers')
 
-.controller('ShipmentsListCtrl', function ($scope, $mdDialog, AuthSvc, CebolaSvc) {
-  $scope.title = 'Carregamentos';
+/**
+ * Controller for the ShipmentsEntries
+ * Defines logic for showing entry shipments and opening
+ * the dialog to create a new entry shipment
+ */
+.controller('ShipmentsEntriesCtrl', function ($scope, $mdDialog, AuthSvc, CebolaSvc) {
   
   AuthSvc.ensureLoggedIn()
     .then(function () {
-      $scope.loadShipments();
+      $scope.loadEntryShipments();
     });
   
-  $scope.loadShipments = function () {
+  $scope.loadEntryShipments = function () {
+
+    // only entries
+    query = { type: 'entry' };
+
     return CebolaSvc
-      .listShipments(AuthSvc.getAuthToken())
+      .listShipments(AuthSvc.getAuthToken(), query)
       .then(function (shipments) {
         $scope.shipments = shipments;
       })
@@ -18,7 +26,7 @@ angular.module('inventoryAdm.controllers')
         if (err.status === 401) {
           return AuthSvc.resetAuth()
             .then(function () {
-              return $scope.loadShipments();
+              return $scope.loadEntryShipments();
             });
         } else {
           throw err;
@@ -87,11 +95,117 @@ angular.module('inventoryAdm.controllers')
       templateUrl: 'templates/dialogs/shipment/new-entry.html'
     })
     .then(function () {
-      return $scope.loadShipments();
+      return $scope.loadEntryShipments();
     });
   };
 })
 
+/**
+ * ShipmentExits controller
+ * Defines logic to display exit shipments and 
+ * to open the dialog to create a new exit shipment
+ */
+.controller('ShipmentsExitsCtrl', function ($scope, $mdDialog, AuthSvc, CebolaSvc) {
+  
+  AuthSvc.ensureLoggedIn()
+    .then(function () {
+      $scope.loadExitShipments();
+    });
+  
+  $scope.loadExitShipments = function () {
+
+    // only exits
+    query = { type: 'exit' };
+
+    return CebolaSvc
+      .listShipments(AuthSvc.getAuthToken(), query)
+      .then(function (shipments) {
+        $scope.shipments = shipments;
+      })
+      .catch(function (err) {
+        if (err.status === 401) {
+          return AuthSvc.resetAuth()
+            .then(function () {
+              return $scope.loadExitShipments();
+            });
+        } else {
+          throw err;
+        }
+      });
+  };
+  
+  /**
+   * Opens dialog for creating a new exit shipment
+   * @return {Bluebird}
+   */
+  $scope.openExitShipmentDialog = function () {
+    return $mdDialog.show({
+      controller: function ($scope, $q, $mdDialog) {
+        
+        $scope.supplier     = undefined;
+        $scope.shipmentData = {
+          type: 'exit'
+        };
+        $scope.allocations  = [{}];
+        
+        $scope.searchProducts = function (searchText) {
+          // by default search through all product models
+          return CebolaSvc.searchProductModels(
+            AuthSvc.getAuthToken(),
+            searchText
+          );
+        };
+        
+        $scope.searchOrganizations = function (searchText) {
+          return CebolaSvc.searchOrganizations(
+            AuthSvc.getAuthToken(),
+            searchText
+          );
+        };
+        
+        $scope.close = function () {
+          $mdDialog.hide();
+        };
+        
+        $scope.submit = function () {
+          var supplier     = $scope.supplier;
+          var scheduledFor = $scope.shipmentData.scheduledFor;
+          var allocations  = $scope.allocations;
+
+          CebolaSvc.scheduleEntryShipment(
+            AuthSvc.getAuthToken(),
+            supplier,
+            $scope.shipmentData,
+            allocations
+          )
+          .then(function () {
+            $mdDialog.hide();
+          })
+          .catch(function (err) {
+            alert('houve um erro ao criar um modelo de produto');
+            console.warn(err);
+          });
+        };
+        
+        $scope.addScheduledOperation = function () {
+          $scope.allocations.push({});
+        };
+        
+      },
+      templateUrl: 'templates/dialogs/shipment/new-exit.html'
+    })
+    .then(function () {
+      return $scope.loadExitShipments();
+    });
+  };
+})
+
+/**
+ * Controller that defines logic to display details of
+ * a given shipment.
+ *
+ * Defines logic for effectivating each of the allocations of each shipment.
+ */
 .controller('ShipmentsDetailCtrl', function ($scope, $mdDialog, $stateParams, AuthSvc, CebolaSvc) {
   
   AuthSvc.ensureLoggedIn()
@@ -166,6 +280,12 @@ angular.module('inventoryAdm.controllers')
 
           if (!$scope.operation.quantity.value) {
             throw new Error('quantity.value is required');
+          }
+
+          if ($scope.operation.quantity.value > $scope.allocation.remaining.value) {
+            $scope.operationForm.quantityValue.$error.excess = true;
+
+            return;
           }
 
           return CebolaSvc.registerEntryOperation(

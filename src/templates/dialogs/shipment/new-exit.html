@@ -1,7 +1,7 @@
 <md-dialog id="new-shipment-dialog" class="fullscreen">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Novo carregamento</h2>
+      <h2>Nova saída</h2>
       <span flex></span>
       <md-button ng-click="close()" class="md-icon-button">
         <md-icon>close</md-icon>
@@ -11,42 +11,12 @@
   <form name="shipmentForm" ng-submit="submit()">
     <md-dialog-content>
       <md-content class="md-padding">
-        <md-input-container>
-          <label>Tipo</label>
-          <md-select ng-model="shipmentData.type" required>
-            <md-option ng-value="'entry'">Entrada</md-option>
-            <md-option ng-value="'exit'">Saída</md-option>
-          </md-select>
-          <div ng-messages="shipmentForm.type.$error">
-            <div ng-message="required">Tipo de carregamento é obrigatório</div>
-          </div>
-        </md-input-container>
-        
         <md-datepicker
           ng-model="shipmentData.scheduledFor"
           md-placeholder="Enter date"
           md-min-date="minDate"></md-datepicker>
         
         <md-autocomplete
-          ng-show="shipmentData.type === 'entry'"
-          class="md-block"
-          md-selected-item="shipmentData.supplier"
-          md-floating-label="Fornecedor"
-          required
-          
-          placeholder="Nome da organização"
-          md-no-cache
-          md-require-match
-          md-item-text="org.name"
-          md-search-text="shipmentData._sourceOrgSearchText"
-          md-items="org in searchOrganizations(shipmentData._sourceOrgSearchText)">
-          <md-item-template>
-            {{ org.name }}
-          </md-item-template>
-        </md-autocomplete>
-        
-        <md-autocomplete
-          ng-show="shipmentData.type === 'exit'"
           class="md-block"
           md-selected-item="shipmentData.destination"
           md-floating-label="Destinatário"
@@ -63,29 +33,29 @@
           </md-item-template>
         </md-autocomplete>
         
-        <!-- operations -->
+        <!-- allocations -->
         
         <section ng-show="shipmentData.type">
           <h3>Produtos</h3>
         
           <ul class="product-list">
             <li
-              ng-repeat="operation in shipmentData.operations">
+              ng-repeat="allocation in allocations">
             
               <md-autocomplete
                 class="md-block"
-                md-selected-item="operation.productModel"
+                md-selected-item="allocation.productModel"
                 md-floating-label="Nome do produto"
                 required
                 
                 placeholder="Nome do produto"
                 md-no-cache
                 md-require-match
-                md-item-text="item.name"
-                md-search-text="operation._searchText"
-                md-items="item in searchProducts(operation._searchText)">
+                md-item-text="item.description"
+                md-search-text="allocation._searchText"
+                md-items="item in searchProducts(allocation._searchText)">
                 <md-item-template>
-                  {{ item.name }}
+                  {{ item.description }}
                 </md-item-template>
               </md-autocomplete>
               
@@ -97,22 +67,22 @@
                     name="quantityValue"
                     required
                     type="number"
-                    ng-model="operation.quantity.value">
+                    ng-model="allocation.quantity.value">
                 </md-input-container>
                 
                 <md-input-container>
                   <label>Unidade</label>
-                  <md-select ng-model="operation.quantity.unit" required>
+                  <md-select ng-model="allocation.quantity.unit" required>
                     <md-option ng-value="'kg'">Kg</md-option>
-                    <md-option ng-value="'l'">Litros</md-option>
+                    <md-option ng-value="'litros'">Litros</md-option>
                   </md-select>
-                  <div ng-messages="operation.$error">
+                  <div ng-messages="allocation.$error">
                     <div ng-message="required">Unit is required</div>
                   </div>
                 </md-input-container>
                 
                 <md-datepicker
-                  ng-model="operation.productExpiry"
+                  ng-model="allocation.productExpiry"
                   md-placeholder="Validade"
                   md-min-date="minDate"></md-datepicker>
                 

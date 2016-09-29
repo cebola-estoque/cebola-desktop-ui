@@ -13,17 +13,19 @@
     <!-- own -->
     <link rel="stylesheet" href="styles/dialogs/auth.css" type="text/css" media="all" />
     <link rel="stylesheet" href="styles/dialogs/new-shipment.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="styles/dialogs/new-operation-from-allocation.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="styles/forms.css" type="text/css" media="all" />
   </head>
   <body ng-controller="AppCtrl">
     <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
       <md-nav-item md-nav-sref="inventory" name="inventory">
         Inventário
       </md-nav-item>
-      <md-nav-item md-nav-sref="shipments.list" name="shipments">
-        Carregamentos
+      <md-nav-item md-nav-sref="shipments.entries" name="entries">
+        Entradas
       </md-nav-item>
-      <md-nav-item md-nav-sref="operations" name="operations">
-        Operations
+      <md-nav-item md-nav-sref="shipments.exits" name="exits">
+        Saídas
       </md-nav-item>
       <md-nav-item md-nav-sref="organizations" name="organizations">
         Organizações
